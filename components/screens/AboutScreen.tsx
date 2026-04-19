@@ -1,7 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import { about, profile, experience } from "@/lib/data";
-import { Briefcase } from "lucide-react";
+import { Briefcase, Activity } from "lucide-react";
 
 export default function AboutScreen() {
   const info = [
@@ -93,6 +93,49 @@ export default function AboutScreen() {
             </p>
           ))}
         </div>
+      </motion.div>
+
+      {/* GitHub Contribution Graph */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, delay: 0.15 }}
+        className="neon-box-purple bg-panel/80 p-5"
+      >
+        <div className="flex items-center gap-2 mb-4">
+          <Activity size={14} className="text-neonPurple" />
+          <p className="font-pixel text-[10px] neon-purple">
+            COMBAT RECORD / GITHUB ACTIVITY
+          </p>
+          <span className="font-vt text-sm text-white/40 ml-auto hidden md:inline">
+            last 12 months · @KennethMartin06
+          </span>
+        </div>
+        <div className="relative overflow-x-auto">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="https://ghchart.rshah.org/a78bfa/KennethMartin06"
+            alt="Kenneth Martin's GitHub contribution graph"
+            className="w-full min-w-[640px] opacity-90"
+            loading="lazy"
+          />
+          {/* Scanline overlay to match the arcade aesthetic */}
+          <div
+            className="absolute inset-0 pointer-events-none mix-blend-overlay"
+            style={{
+              backgroundImage:
+                "repeating-linear-gradient(0deg, rgba(0,0,0,0.25) 0 2px, transparent 2px 4px)",
+            }}
+          />
+        </div>
+        <a
+          href={profile.github}
+          target="_blank"
+          rel="noreferrer"
+          className="inline-block mt-3 font-pixel text-[9px] text-white/70 hover:text-neonCyan transition-colors"
+        >
+          ▸ VIEW FULL PROFILE →
+        </a>
       </motion.div>
 
       {/* Experience timeline */}

@@ -56,6 +56,13 @@ export const metadata: Metadata = {
   icons: {
     icon: "/favicon.ico",
   },
+  manifest: "/manifest.webmanifest",
+};
+
+// Tinted OS chrome on mobile to match the arcade theme
+export const viewport = {
+  themeColor: "#08090d",
+  colorScheme: "dark" as const,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

@@ -39,10 +39,11 @@ const fragmentShader = /* glsl */ `
     vec2 p = (uv * 2.0 - 1.0);
     p.x *= uResolution.x / uResolution.y;
 
-    // Sun center, radius
-    vec2 sunPos = vec2(0.0, -0.15);
+    // Sun center pushed well below the hero text so the title/CTA/stats
+    // always sit in clean negative space above it.
+    vec2 sunPos = vec2(0.0, -0.95);
     float d = length(p - sunPos);
-    float r = 0.55;
+    float r = 0.38;
 
     // Soft sun disk with feathered edge
     float sun = smoothstep(r, r - 0.02, d);
@@ -123,8 +124,15 @@ export default function SynthwaveSun() {
   return (
     <div
       aria-hidden
-      className="pointer-events-none absolute inset-0 z-0 opacity-80"
-      style={{ maskImage: "radial-gradient(circle at 50% 55%, black 50%, transparent 85%)" }}
+      className="pointer-events-none absolute inset-0 z-0 opacity-50"
+      style={{
+        // Mask fades the sun out toward the top of the hero so it never
+        // competes with the title / tagline / CTA text.
+        maskImage:
+          "linear-gradient(to bottom, transparent 0%, transparent 45%, black 75%, black 100%)",
+        WebkitMaskImage:
+          "linear-gradient(to bottom, transparent 0%, transparent 45%, black 75%, black 100%)",
+      }}
     >
       <Canvas
         dpr={[1, 1.5]}

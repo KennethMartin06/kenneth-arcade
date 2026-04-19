@@ -11,6 +11,7 @@ import Typewriter from "../Typewriter";
 import GlitchText from "../GlitchText";
 import MagneticButton from "../MagneticButton";
 import AnimatedCounter from "../AnimatedCounter";
+import HiScore from "../HiScore";
 import { profile } from "@/lib/data";
 
 // r3f canvas is client-only + ~160KB gz — load it lazy after first paint.
@@ -101,7 +102,7 @@ export default function HomeScreen({ onStart }: { onStart: () => void }) {
       <motion.p
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
-        className="relative font-pixel text-[10px] md:text-xs neon-yellow mb-6 tracking-widest"
+        className="relative z-10 font-pixel text-[10px] md:text-xs neon-yellow mb-6 tracking-widest"
       >
         ★ INSERT COIN ★ KENNETH ARCADE v2.0 ★
       </motion.p>
@@ -109,7 +110,7 @@ export default function HomeScreen({ onStart }: { onStart: () => void }) {
       {/* ── FOREGROUND LAYER — title moves opposite for depth ── */}
       <motion.div
         style={{ x: xFore, y: yFore }}
-        className="relative"
+        className="relative z-10"
       >
         <motion.h1
           initial={{ opacity: 0, scale: 0.92 }}
@@ -127,7 +128,7 @@ export default function HomeScreen({ onStart }: { onStart: () => void }) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5 }}
-        className="relative font-vt text-xl md:text-2xl neon-cyan mt-10 min-h-[2em]"
+        className="relative z-10 font-vt text-xl md:text-2xl neon-cyan mt-10 min-h-[2em]"
       >
         &gt; <Typewriter text={profile.tagline} speed={45} startDelay={600} />
       </motion.p>
@@ -136,7 +137,7 @@ export default function HomeScreen({ onStart }: { onStart: () => void }) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 2.0 }}
-        className="relative font-vt text-lg text-white/70 mt-2"
+        className="relative z-10 font-vt text-lg text-white/70 mt-2"
       >
         CLASS: <span className="neon-yellow">{profile.role}</span>
       </motion.p>
@@ -146,7 +147,7 @@ export default function HomeScreen({ onStart }: { onStart: () => void }) {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 2.3 }}
-        className="relative mt-10"
+        className="relative z-10 mt-10"
       >
         <MagneticButton
           onClick={onStart}
@@ -161,7 +162,7 @@ export default function HomeScreen({ onStart }: { onStart: () => void }) {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 2.6 }}
-        className="relative grid grid-cols-3 gap-3 md:gap-6 mt-10 max-w-md w-full"
+        className="relative z-10 grid grid-cols-3 gap-3 md:gap-6 mt-10 max-w-md w-full"
       >
         <div className="border border-neonCyan/40 bg-neonCyan/5 p-3 text-center">
           <p className="font-pixel text-[8px] text-white/50 mb-1">MISSIONS</p>
@@ -187,9 +188,9 @@ export default function HomeScreen({ onStart }: { onStart: () => void }) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 3 }}
-        className="relative mt-6 font-vt text-sm text-white/40"
+        className="relative z-10 mt-6 font-vt text-sm text-white/40"
       >
-        HI-SCORE <span className="neon-yellow">999999</span> · 1P
+        HI-SCORE <HiScore /> · 1P
       </motion.div>
     </div>
   );

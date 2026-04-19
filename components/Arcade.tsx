@@ -7,6 +7,11 @@ import HomeScreen from "./screens/HomeScreen";
 import CursorGlow from "./CursorGlow";
 import Marquee from "./Marquee";
 import SoundToggle, { playBloop } from "./SoundToggle";
+import CommandPalette from "./CommandPalette";
+import { useKonami } from "@/hooks/useKonami";
+
+// Breakout is large (canvas game) and only shown on secret unlock → lazy load.
+const Breakout = dynamic(() => import("./Breakout"), { ssr: false });
 
 // Route-level code splitting — each non-home screen is chunked out of the
 // initial bundle, trimming first-paint JS by ~40KB+. Home ships eagerly
@@ -61,6 +66,9 @@ const TICKER_ITEMS = [
 export default function Arcade() {
   const [level, setLevel] = useState<LevelKey>("home");
   const [loading, setLoading] = useState(false);
+  const [showBreakout, setShowBreakout] = useState(false);
+
+  useKonami(() => setShowBreakout(true));
 
   const go = useCallback((k: LevelKey) => {
     if (k === level) return;
@@ -175,6 +183,12 @@ export default function Arcade() {
       <div className="mt-6 border-y-2 border-neonPurple/30 bg-panel/60 py-2">
         <Marquee items={TICKER_ITEMS} speed={50} />
       </div>
+
+      {/* ⌘K palette — always mounted, renders its own overlay when open */}
+      <CommandPalette onLevel={go} onSecret={() => setShowBreakout(true)} />
+
+      {/* Konami-unlocked secret game */}
+      {showBreakout && <Breakout onClose={() => setShowBreakout(false)} />}
     </div>
   );
 }
