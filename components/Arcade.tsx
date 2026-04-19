@@ -1,0 +1,121 @@
+"use client";
+import { useCallback, useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import Sidebar, { LEVELS, LevelKey } from "./Sidebar";
+import HomeScreen from "./screens/HomeScreen";
+import AboutScreen from "./screens/AboutScreen";
+import SkillsScreen from "./screens/SkillsScreen";
+import ProjectsScreen from "./screens/ProjectsScreen";
+import ContactScreen from "./screens/ContactScreen";
+
+export default function Arcade() {
+  const [level, setLevel] = useState<LevelKey>("home");
+  const [loading, setLoading] = useState(false);
+
+  const go = useCallback((k: LevelKey) => {
+    if (k === level) return;
+    setLoading(true);
+    setTimeout(() => {
+      setLevel(k);
+      setLoading(false);
+    }, 450);
+  }, [level]);
+
+  // Keyboard navigation
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const keys = LEVELS.map((l) => l.key);
+      const idx = keys.indexOf(level);
+      if (e.key === "ArrowDown" || e.key === "ArrowRight") {
+        e.preventDefault();
+        go(keys[(idx + 1) % keys.length]);
+      } else if (e.key === "ArrowUp" || e.key === "ArrowLeft") {
+        e.preventDefault();
+        go(keys[(idx - 1 + keys.length) % keys.length]);
+      } else if (/^[1-5]$/.test(e.key)) {
+        go(keys[parseInt(e.key, 10) - 1]);
+      } else if (e.key === "Enter" && level === "home") {
+        go("about");
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [level, go]);
+
+  const current = LEVELS.find((l) => l.key === level)!;
+
+  return (
+    <div className="relative z-10 min-h-screen px-3 md:px-5 py-4">
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-4">
+        <Sidebar active={level} onSelect={go} />
+
+        {/* Game window */}
+        <main className="flex-1 min-h-[80vh] relative">
+          {/* Top HUD */}
+          <div className="flex items-center justify-between mb-3 font-pixel text-[9px]">
+            <div className="flex items-center gap-3">
+              <span className="neon-pink animate-blink">●</span>
+              <span className="neon-cyan">{current.code}</span>
+              <span className="text-white/50">//</span>
+              <span className="neon-yellow">{current.label}</span>
+            </div>
+            <div className="flex items-center gap-4 text-white/60">
+              <span>
+                LIVES <span className="neon-pink">♥♥♥</span>
+              </span>
+              <span>
+                SCORE <span className="neon-cyan">007{level === "home" ? 0 : LEVELS.findIndex((l) => l.key === level)}00</span>
+              </span>
+            </div>
+          </div>
+
+          {/* Screen frame */}
+          <div className="relative neon-box-cyan bg-panel/60 backdrop-blur-sm p-5 md:p-8 min-h-[70vh] overflow-hidden">
+            <AnimatePresence mode="wait">
+              {loading ? (
+                <motion.div
+                  key="loading"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="absolute inset-0 flex flex-col items-center justify-center gap-6 bg-bg/70"
+                >
+                  <p className="font-pixel text-sm neon-pink animate-flicker">LOADING...</p>
+                  <div className="flex gap-1">
+                    {[0, 1, 2, 3, 4, 5, 6, 7].map((i) => (
+                      <motion.span
+                        key={i}
+                        initial={{ opacity: 0.2 }}
+                        animate={{ opacity: [0.2, 1, 0.2] }}
+                        transition={{ duration: 0.8, delay: i * 0.08, repeat: Infinity }}
+                        className="w-4 h-4 bg-neonCyan"
+                        style={{ boxShadow: "0 0 8px #00fff0" }}
+                      />
+                    ))}
+                  </div>
+                  <p className="font-vt text-sm neon-cyan">
+                    ENTERING {current.label}...
+                  </p>
+                </motion.div>
+              ) : (
+                <motion.div
+                  key={level}
+                  initial={{ opacity: 0, y: 12, filter: "blur(6px)" }}
+                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                  exit={{ opacity: 0, y: -10, filter: "blur(6px)" }}
+                  transition={{ duration: 0.4 }}
+                >
+                  {level === "home" && <HomeScreen onStart={() => go("about")} />}
+                  {level === "about" && <AboutScreen />}
+                  {level === "skills" && <SkillsScreen />}
+                  {level === "projects" && <ProjectsScreen />}
+                  {level === "contact" && <ContactScreen />}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </main>
+      </div>
+    </div>
+  );
+}
