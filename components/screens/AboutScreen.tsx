@@ -27,16 +27,22 @@ export default function AboutScreen() {
           className="md:col-span-2 neon-box-cyan bg-panel/70 p-5"
         >
           <div className="aspect-square relative mb-4 border-2 border-neonPink/50 overflow-hidden bg-gradient-to-br from-neonPurple/30 to-neonCyan/20">
-            {/* Pixel avatar */}
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="font-pixel text-6xl md:text-7xl neon-pink animate-flicker">
-                KM
-              </div>
-            </div>
+            {/* Real photo */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/profile.jpg"
+              alt="Kenneth Martin"
+              className="absolute inset-0 w-full h-full object-cover object-top"
+            />
+            {/* CRT scanline overlay on photo */}
             <div className="absolute inset-0 pointer-events-none"
               style={{
-                backgroundImage: "repeating-linear-gradient(0deg, rgba(0,0,0,0.3) 0 2px, transparent 2px 4px)",
+                backgroundImage: "repeating-linear-gradient(0deg, rgba(0,0,0,0.18) 0 2px, transparent 2px 4px)",
               }}
+            />
+            {/* Neon border glow overlay */}
+            <div className="absolute inset-0 pointer-events-none"
+              style={{ boxShadow: "inset 0 0 20px rgba(94,234,212,0.15)" }}
             />
             <div className="absolute bottom-1 left-1 right-1 flex justify-between font-pixel text-[8px] neon-cyan">
               <span>HP ████████</span>
