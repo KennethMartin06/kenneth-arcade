@@ -45,8 +45,8 @@ export default function Arcade() {
   const current = LEVELS.find((l) => l.key === level)!;
 
   return (
-    <div className="relative z-10 min-h-screen px-3 md:px-5 py-4">
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-4">
+    <div className="relative z-10 min-h-screen px-4 md:px-8 py-4">
+      <div className="w-full flex flex-col md:flex-row gap-5">
         <Sidebar active={level} onSelect={go} />
 
         {/* Game window */}

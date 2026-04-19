@@ -3,10 +3,10 @@ import { motion } from "framer-motion";
 import { skills, stats } from "@/lib/data";
 
 const colorMap: Record<string, string> = {
-  neonPink: "#ff2bd6",
-  neonCyan: "#00fff0",
-  neonPurple: "#b14aff",
-  neonYellow: "#fff35c",
+  neonPink: "#fb7185",
+  neonCyan: "#5eead4",
+  neonPurple: "#a78bfa",
+  neonYellow: "#fbbf24",
 };
 
 function Bar({ label, value, color, i }: { label: string; value: number; color: string; i: number }) {
