@@ -2,6 +2,8 @@
 
 An 80s arcade-themed portfolio disguised as a playable game interface. Built with Next.js 14, Tailwind, and Framer Motion.
 
+**🎮 [Play it live →](https://kenneth-arcade.vercel.app/)**
+
 ## Features
 - Synthwave horizon background (CSS grid + neon sun + parallax stars)
 - Fixed "LEVEL SELECT" sidebar with glowing selection
