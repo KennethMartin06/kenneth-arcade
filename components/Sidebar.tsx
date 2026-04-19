@@ -22,7 +22,7 @@ export default function Sidebar({
 }) {
   return (
     <aside className="relative z-20 w-full md:w-72 shrink-0 md:h-[calc(100vh-32px)] md:sticky md:top-4">
-      <div className="relative neon-box-pink bg-panel/80 backdrop-blur-sm p-5 md:h-full">
+      <div className="relative neon-box-pink bg-panel p-5 md:h-full">
         <div className="flex items-center justify-between mb-6">
           <p className="font-pixel text-[10px] neon-pink">LEVEL SELECT</p>
           <span className="font-vt text-sm neon-cyan animate-blink">●</span>

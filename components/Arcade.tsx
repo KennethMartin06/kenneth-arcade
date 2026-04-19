@@ -70,7 +70,7 @@ export default function Arcade() {
           </div>
 
           {/* Screen frame */}
-          <div className="relative neon-box-cyan bg-panel/60 backdrop-blur-sm p-5 md:p-8 min-h-[70vh] overflow-hidden">
+          <div className="relative neon-box-cyan bg-panel p-5 md:p-8 min-h-[70vh] overflow-hidden">
             <AnimatePresence mode="wait">
               {loading ? (
                 <motion.div
@@ -100,10 +100,10 @@ export default function Arcade() {
               ) : (
                 <motion.div
                   key={level}
-                  initial={{ opacity: 0, y: 12, filter: "blur(6px)" }}
-                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                  exit={{ opacity: 0, y: -10, filter: "blur(6px)" }}
-                  transition={{ duration: 0.4 }}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.3 }}
                 >
                   {level === "home" && <HomeScreen onStart={() => go("about")} />}
                   {level === "about" && <AboutScreen />}

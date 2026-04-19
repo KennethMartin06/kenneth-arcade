@@ -32,99 +32,81 @@ body {
 }
 
 @layer utilities {
-  /* Toned-down "neon" utilities — subtle glow instead of heavy bloom */
+  /* Text "neon" — single tight glow, cheap */
   .neon-pink {
     color: #fb7185;
-    text-shadow: 0 0 4px rgba(251, 113, 133, 0.4), 0 0 12px rgba(251, 113, 133, 0.25);
+    text-shadow: 0 0 6px rgba(251, 113, 133, 0.35);
   }
   .neon-cyan {
     color: #5eead4;
-    text-shadow: 0 0 4px rgba(94, 234, 212, 0.4), 0 0 12px rgba(94, 234, 212, 0.25);
+    text-shadow: 0 0 6px rgba(94, 234, 212, 0.35);
   }
   .neon-purple {
     color: #a78bfa;
-    text-shadow: 0 0 4px rgba(167, 139, 250, 0.4), 0 0 12px rgba(167, 139, 250, 0.25);
+    text-shadow: 0 0 6px rgba(167, 139, 250, 0.35);
   }
   .neon-yellow {
     color: #fbbf24;
-    text-shadow: 0 0 4px rgba(251, 191, 36, 0.45), 0 0 12px rgba(251, 191, 36, 0.3);
+    text-shadow: 0 0 6px rgba(251, 191, 36, 0.4);
   }
   .neon-box-pink {
     border: 1px solid rgba(251, 113, 133, 0.5);
-    box-shadow: 0 0 0 1px rgba(251, 113, 133, 0.1),
-      0 0 12px rgba(251, 113, 133, 0.15),
-      inset 0 0 20px rgba(251, 113, 133, 0.04);
+    box-shadow: 0 0 10px rgba(251, 113, 133, 0.15);
   }
   .neon-box-cyan {
     border: 1px solid rgba(94, 234, 212, 0.5);
-    box-shadow: 0 0 0 1px rgba(94, 234, 212, 0.1),
-      0 0 12px rgba(94, 234, 212, 0.15),
-      inset 0 0 20px rgba(94, 234, 212, 0.04);
+    box-shadow: 0 0 10px rgba(94, 234, 212, 0.15);
   }
   .neon-box-purple {
     border: 1px solid rgba(167, 139, 250, 0.5);
-    box-shadow: 0 0 0 1px rgba(167, 139, 250, 0.1),
-      0 0 12px rgba(167, 139, 250, 0.15),
-      inset 0 0 20px rgba(167, 139, 250, 0.04);
+    box-shadow: 0 0 10px rgba(167, 139, 250, 0.15);
   }
 
-  /* Dark ambient background */
+  /* Background — STATIC, no animation, no blur */
   .synthwave-bg {
     position: fixed;
     inset: 0;
     z-index: 0;
     pointer-events: none;
     background:
-      radial-gradient(ellipse at 50% 70%, rgba(167, 139, 250, 0.12) 0%, transparent 55%),
-      radial-gradient(ellipse at 50% 100%, rgba(94, 234, 212, 0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 800px 500px at 50% 60%, rgba(167, 139, 250, 0.14), transparent 70%),
+      radial-gradient(ellipse 600px 300px at 50% 95%, rgba(94, 234, 212, 0.08), transparent 70%),
+      radial-gradient(circle 300px at 50% 42%, rgba(251, 191, 36, 0.10), transparent 70%),
       linear-gradient(180deg, #08090d 0%, #0d0f14 55%, #12141b 100%);
   }
-  .synthwave-sun {
-    position: absolute;
-    left: 50%;
-    top: 42%;
-    transform: translateX(-50%);
-    width: 380px;
-    height: 380px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 50% 50%, rgba(251, 191, 36, 0.35), rgba(167, 139, 250, 0.15) 55%, transparent 75%);
-    filter: blur(20px);
-    opacity: 0.6;
-  }
+
+  /* Static grid — pure SVG-style CSS, no perspective, no animation */
   .synthwave-grid {
     position: absolute;
-    left: 50%;
-    bottom: -10%;
-    transform: translateX(-50%) perspective(600px) rotateX(60deg);
-    width: 200vw;
-    height: 70vh;
+    inset: auto 0 0 0;
+    height: 45vh;
     background-image:
-      linear-gradient(rgba(167, 139, 250, 0.25) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(94, 234, 212, 0.22) 1px, transparent 1px);
-    background-size: 80px 48px;
-    animation: gridmove 18s linear infinite;
-    mask-image: linear-gradient(180deg, transparent 0%, black 25%, black 100%);
-    -webkit-mask-image: linear-gradient(180deg, transparent 0%, black 25%, black 100%);
-    opacity: 0.35;
+      linear-gradient(rgba(167, 139, 250, 0.18) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(94, 234, 212, 0.15) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: linear-gradient(180deg, transparent 0%, black 50%, black 100%);
+    -webkit-mask-image: linear-gradient(180deg, transparent 0%, black 50%, black 100%);
+    opacity: 0.5;
+    transform: perspective(500px) rotateX(55deg);
+    transform-origin: bottom;
   }
+
   .synthwave-stars {
     position: absolute;
     inset: 0;
     background-image:
-      radial-gradient(1.5px 1.5px at 20px 30px, rgba(255, 255, 255, 0.6), transparent),
-      radial-gradient(1px 1px at 120px 80px, rgba(255, 255, 255, 0.45), transparent),
-      radial-gradient(1px 1px at 240px 160px, rgba(251, 191, 36, 0.5), transparent),
-      radial-gradient(1px 1px at 380px 220px, rgba(94, 234, 212, 0.5), transparent),
-      radial-gradient(1.5px 1.5px at 520px 60px, rgba(255, 255, 255, 0.5), transparent),
-      radial-gradient(1px 1px at 640px 180px, rgba(167, 139, 250, 0.5), transparent),
-      radial-gradient(1px 1px at 760px 40px, rgba(255, 255, 255, 0.4), transparent),
-      radial-gradient(1px 1px at 880px 140px, rgba(255, 255, 255, 0.4), transparent);
+      radial-gradient(1.5px 1.5px at 20px 30px, rgba(255, 255, 255, 0.5), transparent),
+      radial-gradient(1px 1px at 120px 80px, rgba(255, 255, 255, 0.4), transparent),
+      radial-gradient(1px 1px at 240px 160px, rgba(251, 191, 36, 0.4), transparent),
+      radial-gradient(1px 1px at 380px 220px, rgba(94, 234, 212, 0.4), transparent),
+      radial-gradient(1.5px 1.5px at 520px 60px, rgba(255, 255, 255, 0.4), transparent),
+      radial-gradient(1px 1px at 640px 180px, rgba(167, 139, 250, 0.4), transparent),
+      radial-gradient(1px 1px at 760px 40px, rgba(255, 255, 255, 0.35), transparent);
     background-size: 1000px 500px;
-    opacity: 0.5;
-    animation: starfall 120s linear infinite;
+    opacity: 0.35;
   }
 
-  /* CRT — toned down */
+  /* CRT scanlines — one fixed overlay, no blend mode */
   .crt-scanlines {
     position: fixed;
     inset: 0;
@@ -134,39 +116,22 @@ body {
       to bottom,
       rgba(0, 0, 0, 0) 0px,
       rgba(0, 0, 0, 0) 2px,
-      rgba(0, 0, 0, 0.12) 3px,
-      rgba(0, 0, 0, 0.12) 4px
+      rgba(0, 0, 0, 0.1) 3px,
+      rgba(0, 0, 0, 0.1) 4px
     );
-    mix-blend-mode: multiply;
   }
   .crt-vignette {
     position: fixed;
     inset: 0;
     pointer-events: none;
     z-index: 41;
-    background: radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, 0.65) 100%);
-  }
-  .crt-sweep {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 42;
-    overflow: hidden;
-  }
-  .crt-sweep::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    height: 120px;
-    background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.025), transparent);
-    animation: scanline 10s linear infinite;
+    background: radial-gradient(ellipse at center, transparent 55%, rgba(0, 0, 0, 0.55) 100%);
   }
 
   .chunky-shadow {
     text-shadow:
-      2px 2px 0 rgba(251, 113, 133, 0.6),
-      4px 4px 0 rgba(167, 139, 250, 0.5);
+      2px 2px 0 rgba(251, 113, 133, 0.55),
+      4px 4px 0 rgba(167, 139, 250, 0.45);
   }
 
   .blink-caret::after {
@@ -175,5 +140,26 @@ body {
     margin-left: 4px;
     animation: blink 1.2s steps(2, end) infinite;
     color: #fbbf24;
+  }
+}
+
+@keyframes blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+@keyframes flicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
+  20%, 22%, 24%, 55% { opacity: 0.8; }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
