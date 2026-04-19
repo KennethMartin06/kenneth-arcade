@@ -7,6 +7,29 @@ import AboutScreen from "./screens/AboutScreen";
 import SkillsScreen from "./screens/SkillsScreen";
 import ProjectsScreen from "./screens/ProjectsScreen";
 import ContactScreen from "./screens/ContactScreen";
+import CursorGlow from "./CursorGlow";
+import Marquee from "./Marquee";
+
+// Tech stack ticker shown at the bottom of the screen — premium Framer touch.
+const TICKER_ITEMS = [
+  "PyTorch",
+  "TensorFlow",
+  "scikit-learn",
+  "FastAPI",
+  "Next.js",
+  "React",
+  "TypeScript",
+  "Tailwind",
+  "WebSockets",
+  "MediaPipe",
+  "Oracle DB",
+  "PostgreSQL",
+  "Python",
+  "Java",
+  "C",
+  "OpenCV",
+  "Framer Motion",
+];
 
 export default function Arcade() {
   const [level, setLevel] = useState<LevelKey>("home");
@@ -45,7 +68,8 @@ export default function Arcade() {
   const current = LEVELS.find((l) => l.key === level)!;
 
   return (
-    <div className="relative z-10 min-h-screen px-4 md:px-8 py-4">
+    <div className="relative z-10 min-h-screen px-4 md:px-8 py-4 pb-10">
+      <CursorGlow />
       <div className="w-full flex flex-col md:flex-row gap-5">
         <Sidebar active={level} onSelect={go} />
 
@@ -115,6 +139,11 @@ export default function Arcade() {
             </AnimatePresence>
           </div>
         </main>
+      </div>
+
+      {/* Tech stack ticker — pure CSS marquee, GPU-only, near-zero cost */}
+      <div className="mt-6 border-y-2 border-neonPurple/30 bg-panel/60 py-2">
+        <Marquee items={TICKER_ITEMS} speed={50} />
       </div>
     </div>
   );

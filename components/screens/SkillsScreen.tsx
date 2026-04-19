@@ -1,6 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import { skills, stats } from "@/lib/data";
+import AnimatedCounter from "../AnimatedCounter";
 
 const colorMap: Record<string, string> = {
   neonPink: "#fb7185",
@@ -15,7 +16,9 @@ function Bar({ label, value, color, i }: { label: string; value: number; color: 
     <div>
       <div className="flex justify-between font-pixel text-[10px] mb-2">
         <span className="text-white/80">{label}</span>
-        <span style={{ color: c, textShadow: `0 0 6px ${c}` }}>{value}/100</span>
+        <span style={{ color: c, textShadow: `0 0 6px ${c}` }}>
+          <AnimatedCounter to={value} duration={0.9 + i * 0.05} />/100
+        </span>
       </div>
       <div className="h-4 border-2 border-white/30 bg-black/50 p-[2px]">
         <motion.div
