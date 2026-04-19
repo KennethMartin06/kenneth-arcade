@@ -1,6 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
-import { about, profile } from "@/lib/data";
+import { about, profile, experience } from "@/lib/data";
+import { Briefcase } from "lucide-react";
 
 export default function AboutScreen() {
   const info = [
@@ -76,8 +77,9 @@ export default function AboutScreen() {
       {/* Bio dialogue box */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-60px" }}
+        transition={{ duration: 0.4 }}
         className="neon-box-pink bg-panel/80 p-5"
       >
         <div className="flex items-center gap-2 mb-3">
@@ -91,6 +93,54 @@ export default function AboutScreen() {
             </p>
           ))}
         </div>
+      </motion.div>
+
+      {/* Experience timeline */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-60px" }}
+        transition={{ duration: 0.4, delay: 0.1 }}
+        className="neon-box-cyan bg-panel/80 p-5"
+      >
+        <div className="flex items-center gap-2 mb-5">
+          <Briefcase size={14} className="text-neonCyan" />
+          <p className="font-pixel text-[10px] neon-cyan">QUEST LOG / EXPERIENCE</p>
+        </div>
+        <ol className="relative border-l-2 border-dashed border-neonPurple/40 ml-2 space-y-6">
+          {experience.map((e, i) => (
+            <motion.li
+              key={e.company}
+              initial={{ opacity: 0, x: -10 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 + i * 0.1 }}
+              className="pl-5"
+            >
+              {/* Marker */}
+              <span className="absolute -left-[7px] w-3 h-3 bg-neonPink border border-neonPink/60 shadow-[0_0_8px_#fb7185]" />
+              <div className="flex flex-wrap items-baseline gap-x-3 mb-1">
+                <p className="font-pixel text-xs neon-pink">{e.company}</p>
+                <span className="font-vt text-sm text-white/40">·</span>
+                <p className="font-vt text-base neon-cyan">{e.role}</p>
+                <span className="font-vt text-sm text-white/50 ml-auto">
+                  {e.period} · {e.location}
+                </span>
+              </div>
+              <ul className="space-y-1 mt-2">
+                {e.bullets.map((b, j) => (
+                  <li
+                    key={j}
+                    className="font-vt text-base text-white/80 flex gap-2 leading-snug"
+                  >
+                    <span className="neon-yellow shrink-0">▸</span>
+                    <span>{b}</span>
+                  </li>
+                ))}
+              </ul>
+            </motion.li>
+          ))}
+        </ol>
       </motion.div>
     </div>
   );
