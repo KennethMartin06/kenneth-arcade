@@ -6,11 +6,18 @@ import {
   useTransform,
 } from "framer-motion";
 import { useEffect } from "react";
+import dynamic from "next/dynamic";
 import Typewriter from "../Typewriter";
 import GlitchText from "../GlitchText";
 import MagneticButton from "../MagneticButton";
 import AnimatedCounter from "../AnimatedCounter";
 import { profile } from "@/lib/data";
+
+// r3f canvas is client-only + ~160KB gz — load it lazy after first paint.
+const SynthwaveSun = dynamic(() => import("../SynthwaveSun"), {
+  ssr: false,
+  loading: () => null,
+});
 
 /**
  * HomeScreen — hero with parallax mouse-tracked depth layers,
@@ -47,6 +54,9 @@ export default function HomeScreen({ onStart }: { onStart: () => void }) {
 
   return (
     <div className="relative min-h-[72vh] flex flex-col items-center justify-center text-center px-4 overflow-hidden">
+      {/* ── SYNTHWAVE SUN — WebGL fragment shader, behind everything ── */}
+      <SynthwaveSun />
+
       {/* ── BACKGROUND LAYER — distant "stars" that drift slowest ── */}
       <motion.div
         aria-hidden

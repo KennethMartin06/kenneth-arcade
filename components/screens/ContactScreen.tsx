@@ -1,9 +1,5 @@
 "use client";
-import {
-  motion,
-  useMotionValue,
-  useSpring,
-} from "framer-motion";
+import { motion, useMotionValue, useSpring } from "framer-motion";
 import { Mail, Github, Linkedin, Instagram, ArrowUpRight } from "lucide-react";
 import { useRef } from "react";
 import Typewriter from "../Typewriter";
@@ -17,8 +13,11 @@ const channels = [
 ];
 
 /**
- * MagneticCard — contact channel card with subtle cursor attraction.
- * Inlined here to keep the number of component files small.
+ * MagneticCard — two-layer motion:
+ * - Outer motion.div handles the entrance reveal (animate, not whileInView —
+ *   the screen mounts inside AnimatePresence and whileInView can race with that).
+ * - Inner motion.a carries the magnetic spring transform.
+ * Splitting them avoids the style.x/y from overriding the variant's y.
  */
 function MagneticCard({
   children,
@@ -47,24 +46,26 @@ function MagneticCard({
   };
 
   return (
-    <motion.a
-      ref={ref}
-      href={href}
-      target="_blank"
-      rel="noreferrer"
-      onMouseMove={onMove}
-      onMouseLeave={onLeave}
+    <motion.div
       initial={{ opacity: 0, y: 15 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ delay: 0.08 * i }}
-      style={{ x: sx, y: sy }}
-      className="group relative neon-box-purple bg-panel/80 p-5 flex items-center gap-4 hover:bg-neonPurple/10 transition-colors overflow-hidden"
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.08 * i, duration: 0.4 }}
     >
-      {/* Hover light sweep */}
-      <span className="pointer-events-none absolute -inset-2 bg-gradient-to-r from-transparent via-neonPink/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-      {children}
-    </motion.a>
+      <motion.a
+        ref={ref}
+        href={href}
+        target="_blank"
+        rel="noreferrer"
+        onMouseMove={onMove}
+        onMouseLeave={onLeave}
+        style={{ x: sx, y: sy }}
+        className="group relative neon-box-purple bg-panel/80 p-5 flex items-center gap-4 hover:bg-neonPurple/10 transition-colors overflow-hidden"
+      >
+        {/* Hover light sweep */}
+        <span className="pointer-events-none absolute -inset-2 bg-gradient-to-r from-transparent via-neonPink/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        {children}
+      </motion.a>
+    </motion.div>
   );
 }
 
@@ -110,9 +111,8 @@ export default function ContactScreen() {
 
       <motion.div
         initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.4 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.5 }}
         className="text-center pt-6"
       >
         <p className="font-pixel text-[10px] neon-yellow animate-flicker">

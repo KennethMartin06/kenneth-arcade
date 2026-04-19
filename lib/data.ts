@@ -273,9 +273,101 @@ export const experience = [
   },
 ];
 
+// DEV LOG — distilled engineering notes from my Obsidian second brain.
+// Curated so a recruiter can scan depth + taste, not just project titles.
+export type DevLogEntry = {
+  id: string;
+  date: string;
+  title: string;
+  tag: "ML" | "SYSTEMS" | "BACKEND" | "FRONTEND" | "DESIGN";
+  excerpt: string;
+  body: string[];
+};
+
+export const devLog: DevLogEntry[] = [
+  {
+    id: "fusion-beats-single-modality",
+    date: "2026-03-30",
+    title: "Late fusion beats early fusion for InvigilAI by 29 F1 points",
+    tag: "ML",
+    excerpt:
+      "Ablation: visual-only 69.9% F1, behavioral-only 67.7%, fused 99.1%. Here's why late fusion was the right call.",
+    body: [
+      "Early fusion concatenates raw features and lets one model learn cross-modal interactions. Seductive, but brittle — if the webcam drops a frame or the keystroke stream stalls, the whole inference pipeline stalls.",
+      "Late fusion lets each modality run its own scorer and combines the scores downstream. Missing modality? The remaining scorer still emits a calibrated probability. Swap MediaPipe for a lighter model? No retraining of the behavioral branch.",
+      "The 29-point F1 jump from single-modality to fused (67.7% → 99.1%) is the clearest signal I've ever seen that the modalities are capturing complementary information — visual catches impersonation, behavioral catches prompt-copying.",
+    ],
+  },
+  {
+    id: "linear-regression-honesty",
+    date: "2026-03-14",
+    title: "Switched CyclaaraAI's energy model from RandomForest → LinearRegression",
+    tag: "ML",
+    excerpt:
+      "R²=1.0 isn't a flex if the relationship was always linear. Using a forest here was dishonest ML.",
+    body: [
+      "The energy output of PET manufacturing is a deterministic linear function of Processing_Temp and Energy_Source. I had a RandomForest sitting on it getting R²=0.9999, which looked great on a dashboard.",
+      "A lookup table would have been more transparent. Using a forest hid the linearity and made the model 100x slower at inference for zero accuracy gain.",
+      "v2 ships LinearRegression. Same R². 3-line model. Readable coefficients. If a reviewer asks 'why is energy model so accurate?' the answer is now 'because it's actually linear' instead of hand-waving about ensemble magic.",
+    ],
+  },
+  {
+    id: "oracle-row-lock",
+    date: "2026-02-18",
+    title: "Smart Hostel: SELECT … FOR UPDATE to kill the double-allocation race",
+    tag: "BACKEND",
+    excerpt:
+      "Two wardens allocating the same room at the same second → the classic lost-update bug. Fixed with a pessimistic row lock inside a stored procedure.",
+    body: [
+      "Early load test: two concurrent POST /allocations with the same room_id would both succeed. The BEFORE INSERT trigger bumped occupancy twice, overflowing the room's capacity.",
+      "Moved allocation into a PL/SQL procedure (sp_allocate_room) that locks the row: SELECT … FROM room WHERE room_id = :id FOR UPDATE. The second session blocks until the first commits, then sees updated occupancy and rejects cleanly.",
+      "Lesson I wish I'd internalized sooner: in Oracle, BEFORE INSERT triggers can't prevent logical races by themselves. The decision to insert has to happen inside the locked transaction.",
+    ],
+  },
+  {
+    id: "no-blur-filter",
+    date: "2026-02-05",
+    title: "Killed every `filter: blur()` on the portfolio — 60fps on a Chromebook",
+    tag: "FRONTEND",
+    excerpt:
+      "backdrop-filter and filter: blur are the two biggest silent perf killers in 'premium' web design.",
+    body: [
+      "The first portfolio cut had backdrop-blur panels, blurred glow halos, and a sweeping CRT scanline animated with opacity. It looked great on my M-series laptop and crawled at ~20fps on low-end devices.",
+      "Every blur filter forces a GPU rasterization pass on every frame. Stacking 3–4 of them = guaranteed jank. I removed all of them and replaced the effect with radial-gradient PNG-style overlays (no filter, just static color stops).",
+      "Trade-off: gradients can't blur real content behind them. I didn't need that — the panels don't sit over photography, so the visual loss is zero. The perf win is real: LCP went from 3.2s to 1.4s on throttled 4G.",
+    ],
+  },
+  {
+    id: "fork-vs-pthread",
+    date: "2025-11-22",
+    title: "OS Lab: when to use fork() vs pthreads (concrete cost numbers)",
+    tag: "SYSTEMS",
+    excerpt:
+      "fork() copy-on-write is cheap, but pthread creation is ~30× cheaper. If you're scheduling, threads win.",
+    body: [
+      "For the FCFS scheduler I picked pthreads. For the fork/wait demo I used processes. The reason isn't ideology — it's measurement.",
+      "pthread_create + join on my test box: ~20µs. fork() + wait: ~600µs on the same hardware. For a scheduler that loops hundreds of processes, that 30× gap compounds into a visible delay.",
+      "Pattern I now reach for: use pthreads for anything CPU-bound and communicating via shared state; use fork() when I actively *want* memory isolation (e.g. testing a buggy routine without corrupting the parent).",
+    ],
+  },
+  {
+    id: "tilt-without-jank",
+    date: "2026-04-12",
+    title: "3D tilt cards that don't jank: springs over lerp, transform over top/left",
+    tag: "DESIGN",
+    excerpt:
+      "Ship-able micro-interactions need spring physics. Linear lerp always feels robotic.",
+    body: [
+      "First pass used a raw mouse-position → rotateX/Y mapping with a 0.1 lerp. Fast mouse moves produced a visible 'snap' at the end of each animation frame.",
+      "Swapped to framer-motion useSpring with stiffness 150 / damping 18 / mass 0.6. The card settles with real weight, and fast cursor swipes don't produce the snap.",
+      "GPU-only rule: rotateX/rotateY only, never top/left. Added transformStyle: preserve-3d so child elements' translateZ actually lifts out of the card.",
+    ],
+  },
+];
+
 export const about = {
   class: "ML DEVELOPER / RESEARCHER",
-  level: "17",
+  level: "19",
   origin: "INDIA",
   specialty: "MULTI-MODAL AI",
   weapon: "PYTORCH + PYTHON",

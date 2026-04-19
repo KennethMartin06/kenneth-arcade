@@ -22,9 +22,40 @@ const orbitron = Orbitron({
   display: "swap",
 });
 
+const SITE_URL = "https://kenneth-arcade.vercel.app";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: "KENNETH.MARTIN // ARCADE",
-  description: "Kenneth Martin — AI/ML developer. A retro arcade portfolio.",
+  description:
+    "Kenneth Martin — AI/ML developer. A synthwave-arcade portfolio of multi-modal ML systems, full-stack builds, and engineering notes.",
+  keywords: [
+    "Kenneth Martin",
+    "AI Developer",
+    "ML Engineer",
+    "PyTorch",
+    "Multi-Modal AI",
+    "InvigilAI",
+    "CyclaaraAI",
+    "Portfolio",
+  ],
+  authors: [{ name: "Kenneth Martin" }],
+  openGraph: {
+    title: "Kenneth Martin — AI / ML Developer",
+    description:
+      "Multi-modal AI systems, full-stack builds, and engineering notes — rendered as a synthwave arcade.",
+    url: SITE_URL,
+    siteName: "KENNETH.ARCADE",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Kenneth Martin — AI / ML Developer",
+    description: "A synthwave arcade portfolio of multi-modal ML systems.",
+  },
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

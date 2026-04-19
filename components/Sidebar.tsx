@@ -1,16 +1,23 @@
 "use client";
 import { motion } from "framer-motion";
 import clsx from "clsx";
-import { Home, User, Zap, Swords, Radio } from "lucide-react";
+import { Home, User, Zap, Swords, Radio, BookOpen } from "lucide-react";
 
-export type LevelKey = "home" | "about" | "skills" | "projects" | "contact";
+export type LevelKey =
+  | "home"
+  | "about"
+  | "skills"
+  | "projects"
+  | "devlog"
+  | "contact";
 
 export const LEVELS: { key: LevelKey; label: string; icon: typeof Home; code: string }[] = [
   { key: "home", label: "HOME", icon: Home, code: "L-00" },
   { key: "about", label: "ABOUT", icon: User, code: "L-01" },
   { key: "skills", label: "SKILLS", icon: Zap, code: "L-02" },
   { key: "projects", label: "MISSIONS", icon: Swords, code: "L-03" },
-  { key: "contact", label: "CONTACT", icon: Radio, code: "L-04" },
+  { key: "devlog", label: "DEV LOG", icon: BookOpen, code: "L-04" },
+  { key: "contact", label: "CONTACT", icon: Radio, code: "L-05" },
 ];
 
 export default function Sidebar({
@@ -82,7 +89,7 @@ export default function Sidebar({
               <span className="neon-cyan">ENTER</span> select
             </p>
             <p>
-              <span className="neon-cyan">1-5</span> jump
+              <span className="neon-cyan">1-6</span> jump
             </p>
           </div>
         </div>
